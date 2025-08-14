@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macrodata Refinement</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #222;
+            color: #0f0;
+            text-align: center;
+        }
+        #workspace {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+        #numbers {
+            display: flex;
+            flex-wrap: wrap;
+            width: 80%;
+            max-width: 800px;
+            justify-content: center;
+            gap: 5px;
+        }
+        .number {
+            font-size: 18px;
+            padding: 5px;
+            margin: 2px;
+            border: 1px solid #0f0;
+            cursor: pointer;
+            background-color: black;
+            width: 30px;
+            text-align: center;
+        }
+        .bins {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .bin {
+            width: 150px;
+            height: 150px;
+            border: 2px dashed #0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Macrodata Refinement</h1>
+    <div id="workspace">
+        <div id="numbers"></div>
+        <div class="bins">
+            <div class="bin" ondrop="drop(event)" ondragover="allowDrop(event)">Malice</div>
+            <div class="bin" ondrop="drop(event)" ondragover="allowDrop(event)">Wrath</div>
+            <div class="bin" ondrop="drop(event)" ondragover="allowDrop(event)">Frolic</div>
+            <div class="bin" ondrop="drop(event)" ondragover="allowDrop(event)">Indulgence</div>
+        </div>
+    </div>
+
+    <script>
+        function getRandomNumbers(count) {
+            let numbers = [];
+            let ominousNumber = 6;  // Central "scary" number
+            for (let i = 0; i < count; i++) {
+                let deviation = Math.random() < 0.7 ? ominousNumber : Math.floor(Math.random() * 10);
+                numbers.push(deviation);
+            }
+            return numbers;
+        }
+        
+        function renderNumbers() {
+            const numbersDiv = document.getElementById("numbers");
+            numbersDiv.innerHTML = "";
+            getRandomNumbers(425).forEach(num => {
+                let span = document.createElement("span");
+                span.textContent = num;
+                span.classList.add("number");
+                span.draggable = true;
+                span.ondragstart = drag;
+                numbersDiv.appendChild(span);
+            });
+        }
+        
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+        
+        function drag(event) {
+            event.dataTransfer.setData("text", event.target.textContent);
+        }
+        
+        function drop(event) {
+            event.preventDefault();
+            let data = event.dataTransfer.getData("text");
+            event.target.innerHTML = "Refined: " + data;
+            setTimeout(renderNumbers, 1000);
+        }
+        
+        renderNumbers();
+    </script>
+</body>
+</html>
