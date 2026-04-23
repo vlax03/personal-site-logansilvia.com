@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5EECN0SVDY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5EECN0SVDY');
+</script>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Reading notes and book highlights by Logan Silvia.">
+  <title>Books — Logan Silvia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+
+    /* ── Featured book banner ── */
+    .featured-book {
+      background: var(--green);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      padding: clamp(28px, 4.5vw, 52px);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: clamp(22px, 4vw, 48px);
+      align-items: center;
+      margin-bottom: clamp(36px, 5vw, 56px);
+      position: relative;
+      overflow: hidden;
+    }
+    .featured-book::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.04);
+    }
+    .featured-book::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; right: 120px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.03);
+    }
+    @media (max-width: 640px) {
+      .featured-book { grid-template-columns: 1fr; }
+    }
+
+    .book-spine {
+      width: 72px;
+      min-height: 120px;
+      border-radius: 4px 10px 10px 4px;
+      background: linear-gradient(160deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+      border-left: 5px solid rgba(255,255,255,.22);
+      box-shadow:
+        inset -4px 0 12px rgba(0,0,0,.18),
+        4px 6px 24px rgba(0,0,0,.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .book-spine-title {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      color: rgba(255,255,255,.75);
+      transform: rotate(180deg);
+      padding: 10px 0;
+    }
+
+    .featured-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+      display: block;
+      margin-bottom: 10px;
+    }
+    .featured-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(26px, 4vw, 42px);
+      font-weight: 600;
+      letter-spacing: -.02em;
+      line-height: 1.05;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .featured-author {
+      font-size: 13px;
+      color: rgba(255,255,255,.6);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 16px;
+    }
+    .featured-note {
+      font-size: 15.5px;
+      color: rgba(255,255,255,.82);
+      line-height: 1.7;
+      max-width: 58ch;
+    }
+    .featured-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+    .featured-tag {
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,.22);
+      color: rgba(255,255,255,.7);
+    }
+
+    /* ── Shelf section ── */
+    .shelf-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .shelf-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+
+    /* ── Book entries ── */
+    .book-entry {
+      display: grid;
+      grid-template-columns: 52px 1fr auto;
+      gap: 20px;
+      align-items: start;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+      transition: background .15s;
+    }
+    .book-entry:first-child { border-top: 1px solid var(--line); }
+
+    .entry-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 300;
+      color: rgba(26,29,22,.14);
+      line-height: 1;
+      padding-top: 3px;
+      text-align: right;
+    }
+    .entry-body {}
+    .entry-category {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--sage);
+      display: block;
+      margin-bottom: 5px;
+    }
+    .entry-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -.01em;
+      color: var(--text);
+      display: block;
+      margin-bottom: 3px;
+      line-height: 1.15;
+    }
+    .entry-author {
+      font-size: 12.5px;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 10px;
+      letter-spacing: .03em;
+    }
+    .entry-note {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 68ch;
+    }
+    .entry-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .04em;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .status-reading {
+      background: rgba(44,74,46,.10);
+      color: var(--green);
+      border: 1px solid rgba(44,74,46,.18);
+    }
+    .status-done {
+      background: rgba(26,29,22,.06);
+      color: var(--muted);
+      border: 1px solid var(--line);
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* ── Pull quote band ── */
+    .quote-band {
+      background: var(--bg2);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: clamp(36px, 6vw, 72px) 0;
+      margin: clamp(40px, 6vw, 72px) 0;
+    }
+    .quote-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+    @media (max-width: 680px) {
+      .quote-grid { grid-template-columns: 1fr; }
+    }
+    .pull-quote {
+      padding: 28px 32px;
+      position: relative;
+    }
+    .pull-quote + .pull-quote {
+      border-left: 1px solid var(--line);
+    }
+    @media (max-width: 680px) {
+      .pull-quote + .pull-quote { border-left: none; border-top: 1px solid var(--line); }
+    }
+    .pull-quote::before {
+      content: '\201C';
+      position: absolute;
+      top: 18px; left: 22px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 72px;
+      font-weight: 600;
+      line-height: 1;
+      color: rgba(44,74,46,.12);
+    }
+    .quote-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(17px, 2.2vw, 21px);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.55;
+      color: var(--text);
+      margin-bottom: 14px;
+      padding-top: 28px;
+    }
+    .quote-source {
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── My system sidebar ── */
+    .system-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 28px;
+    }
+    @media (max-width: 580px) {
+      .system-grid { grid-template-columns: 1fr; }
+    }
+
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <nav class="nav">
+      <a class="brand" href="index.html" aria-label="Logan Silvia — Home">
+        <span class="brand-name">Logan Silvia</span>
+        <span class="brand-sub">Customer Care · Florida</span>
+      </a>
+      <a class="nav-cta" href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <!-- Page header -->
+    <div class="page-header reveal">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <span>Books</span>
+      </div>
+      <h1 class="page-title">Reading Journal</h1>
+      <p class="page-lead">Notes that are meant to be used — not collected. One actionable takeaway per book. Mostly finance, science, and practical thinking.</p>
+    </div>
+
+    <!-- Currently reading: featured -->
+    <div class="reveal">
+      <div class="featured-book">
+        <div class="book-spine">
+          <span class="book-spine-title">The Intelligent Investor</span>
+        </div>
+        <div>
+          <span class="featured-label">Currently Reading</span>
+          <span class="featured-title">The Intelligent<br>Investor</span>
+          <span class="featured-author">Benjamin Graham</span>
+          <p class="featured-note">
+            The core thesis: your biggest enemy as an investor isn't the market — it's yourself. Protect the downside first. Stay patient. Don't pay for hope. The boring, defensive approach wins not by making great trades but by avoiding catastrophic ones.
+          </p>
+          <div class="featured-tags">
+            <span class="featured-tag">Finance</span>
+            <span class="featured-tag">Long-term thinking</span>
+            <span class="featured-tag">Patience</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shelf -->
+    <div class="reveal">
+      <div class="shelf-label">All books</div>
+
+      <div class="book-entry">
+        <span class="entry-number">01</span>
+        <div class="entry-body">
+          <span class="entry-category">Finance</span>
+          <span class="entry-title">The Intelligent Investor</span>
+          <span class="entry-author">Benjamin Graham</span>
+          <p class="entry-note">Protect downside first, stay patient, and avoid paying for hype. The "boring" approach wins by not blowing up. Mr. Market is a useful servant but a terrible master.</p>
+        </div>
+        <span class="entry-status status-reading">
+          <span class="status-dot"></span>
+          Reading
+        </span>
+      </div>
+
+      <div class="book-entry">
+        <span class="entry-number">02</span>
+        <div class="entry-body">
+          <span class="entry-category">Science</span>
+          <span class="entry-title">Relativity</span>
+          <span class="entry-author">Albert Einstein</span>
+          <p class="entry-note">The way we measure time and motion depends on where we're standing. The same event can look completely different from a different frame of reference — and neither observer is wrong.</p>
+        </div>
+        <span class="entry-status status-reading">
+          <span class="status-dot"></span>
+          Reading
+        </span>
+      </div>
+
+      <div class="book-entry">
+        <span class="entry-number">03</span>
+        <div class="entry-body">
+          <span class="entry-category">Mindset</span>
+          <span class="entry-title">Atomic Habits</span>
+          <span class="entry-author">James Clear</span>
+          <p class="entry-note">Systems beat goals. You don't rise to the level of your goals — you fall to the level of your systems. Identity-based habits are stickier than outcome-based ones.</p>
+        </div>
+        <span class="entry-status status-done">
+          <span class="status-dot"></span>
+          Finished
+        </span>
+      </div>
+
+      <div class="book-entry">
+        <span class="entry-number">04</span>
+        <div class="entry-body">
+          <span class="entry-category">Finance</span>
+          <span class="entry-title">The Psychology of Money</span>
+          <span class="entry-author">Morgan Housel</span>
+          <p class="entry-note">Doing well with money has more to do with behavior than knowledge. No one is crazy — everyone is shaped by unique experiences that make their relationship with money entirely rational to them.</p>
+        </div>
+        <span class="entry-status status-done">
+          <span class="status-dot"></span>
+          Finished
+        </span>
+      </div>
+
+      <div class="book-entry">
+        <span class="entry-number">05</span>
+        <div class="entry-body">
+          <span class="entry-category">Communication</span>
+          <span class="entry-title">Thinking, Fast and Slow</span>
+          <span class="entry-author">Daniel Kahneman</span>
+          <p class="entry-note">We have two modes of thinking: fast and automatic (System 1) and slow and deliberate (System 2). Most errors come from letting System 1 handle things that need System 2.</p>
+        </div>
+        <span class="entry-status status-done">
+          <span class="status-dot"></span>
+          Finished
+        </span>
+      </div>
+
+    </div><!-- /.reveal -->
+
+  </div><!-- /.wrap -->
+
+  <!-- Pull quote band — full bleed -->
+  <div class="quote-band reveal">
+    <div class="wrap">
+      <div class="shelf-label" style="margin-bottom:28px;">Quotes that stuck</div>
+      <div class="quote-grid">
+        <div class="pull-quote">
+          <p class="quote-text">The investor's chief problem — and even his worst enemy — is likely to be himself.</p>
+          <span class="quote-source">Benjamin Graham — The Intelligent Investor</span>
+        </div>
+        <div class="pull-quote">
+          <p class="quote-text">You don't rise to the level of your goals. You fall to the level of your systems.</p>
+          <span class="quote-source">James Clear — Atomic Habits</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- My system -->
+  <div class="wrap reveal" style="padding-bottom: clamp(52px,8vw,96px);">
+    <div class="shelf-label">How I read</div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:clamp(28px,4vw,52px); align-items:start;">
+      <div>
+        <p style="font-size:15px; color:var(--muted); line-height:1.8; margin-bottom:18px;">
+          I read to use what I find. Every book gets reduced to one actionable takeaway. If I can't explain a chapter in two sentences, I re-read it slower.
+        </p>
+        <p style="font-size:15px; color:var(--muted); line-height:1.8;">
+          Notes follow a simple format — idea, example, when to use it, one-line reminder. The goal is a reference I'll actually pull up again.
+        </p>
+      </div>
+
+      <div class="system-grid">
+        <div class="info-block">
+          <h3>The format</h3>
+          <p>Idea &middot; Example &middot; When to use &middot; One-line reminder</p>
+        </div>
+        <div class="info-block">
+          <h3>The rule</h3>
+          <p>If I can't summarize a chapter in two sentences, I re-read it slower.</p>
+        </div>
+        <div class="info-block">
+          <h3>Categories</h3>
+          <div class="chips mt-s">
+            <span class="chip">Finance</span>
+            <span class="chip">Science</span>
+            <span class="chip">Mindset</span>
+            <span class="chip">Communication</span>
+          </div>
+        </div>
+        <div class="info-block">
+          <h3>Up next</h3>
+          <p>More classics. Depth over breadth.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand-col">
+        <span class="foot-brand">Logan Silvia</span>
+        <p class="foot-tagline">Customer Care Technician in Florida. Writing reading notes and building better habits.</p>
+      </div>
+      <div>
+        <span class="foot-col-label">Pages</span>
+        <div class="foot-links">
+          <a href="books.html">Books</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+      <div>
+        <span class="foot-col-label">Elsewhere</span>
+        <div class="foot-links">
+          <a href="https://www.linkedin.com/in/logan-e-silvia/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <p class="foot-copy">© <span id="yr"></span> Logan Silvia · Built simple on purpose.</p>
+  </div>
+</footer>
+
+<script src="site.js" defer></script>
+</body>
+</html>
